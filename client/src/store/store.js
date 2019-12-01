@@ -7,6 +7,13 @@ const rootReducer = (state = {},action) => {
             return state
         case 'GET_STATE':
             return state
+        case 'DELETE_ARTICLE':
+            const articleList = state.articles.filter(object => {
+                return object.shortid !== action.payload
+            })
+            const articles = {articles: articleList}
+            state = {...state, ...articles}
+            return state
         default:
             return state
     }

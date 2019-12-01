@@ -27,20 +27,50 @@ const ArticleHolderHeading = styled.div`
     border-top:1pt solid rgba(0,0,0,.18);
     border-bottom:1pt solid rgba(0,0,0,.18);
 `
+const ActionButtonHolder = styled.div`
+    display:grid
+    grid-template-columns:1fr 1fr
+    grid-align-columns:center
+`
 const ArticleHolderHeadingText = styled.p`
     font-weight:600
     text-transform:uppercase
 `
-
+const ArticleActionButton = styled.button`
+    border:none
+    height:100%
+    display:flex
+    align-items:center
+    justify-content:center
+    margin:0
+    height:24pt
+    width:24pt
+`
 const ArticleLoader = (props) => {
-    let articles = props.articles
+    let {articles} = props
+    console.log(props)
+
+    const DeleteArticle = async e => {
+        e.preventDefault()
+        const id = e.target.name
+        let deleteData = await axios.delete(`http://${BASE_URL}/api/articles/${id}`)
+        if (deleteData) props.DELETE_ARTICLE(id)
+    }
+
     if(articles){
         let ArticleMap = articles.map(article => (
             <ArticleRow key={article.shortid} to={`/articles/${article.shortid}`}>
                 <p>{article.title}</p>
                 <p>{article.category}</p>
                 <p>{article.shortid}</p>
-                <p>Delete Edit</p>
+                <ActionButtonHolder>
+                    <ArticleActionButton className='material-icons' name={article.shortid} onClick={DeleteArticle}>
+                        delete_forever
+                    </ArticleActionButton>
+                    <Link className='material-icons' to={`/editArticle/${article.shortid}`}>
+                        create
+                    </Link>
+                </ActionButtonHolder>
             </ArticleRow>
         ))
         return ArticleMap
@@ -54,7 +84,7 @@ class ArticleCategories extends Component {
     componentDidMount = async() => {
         const articles = await axios.get(`http://${BASE_URL}/api/articles`)
         console.log(this.props)
-        this.props.GET_ARTICLES(articles)
+        this.props.UPDATE_ARTICLES(articles)
     }
 
     render(){
@@ -80,7 +110,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    GET_ARTICLES: httpPayload => dispatch({type:'UPDATE_ARTICLES', payload: {articles: httpPayload.data}})
+    UPDATE_ARTICLES: httpPayload => dispatch({type:'UPDATE_ARTICLES', payload: {articles: httpPayload.data}}),
+    DELETE_ARTICLE: articleid => dispatch({type:'DELETE_ARTICLE', payload: articleid}),
+    GET_STATE: () => dispatch({type:'GET_STATE'})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleCategories)

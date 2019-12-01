@@ -20,6 +20,7 @@
   },
   "scripts": {
     "dev": "concurrently \"cross-env NODE_ENV=development PORT=8080 nodemon\" \"cd client && yarn start\" ",
-    "build": "node index && cd client && yarn build"
+    "build": "node index && cd client && yarn build",
+    "start": "nodemon"
   }
 }

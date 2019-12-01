@@ -48,7 +48,9 @@ router.route('/:id')
     .put( async (req,res) => {
         const article = await Article.findOne({shortid: req.params.id})
         if (article) {
-            const updates = await article.set({...req.body})
+            console.log(article)
+            const updates = await Article.findOneAndUpdate({shortid:article.shortid},{...req.body})
+            console.log(updates)
             res.json({
                 message: 'this article was updated',
                 updates: updates

@@ -1,9 +1,13 @@
 import React from 'react'
 import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import Home from './Pages/Home'
 import ArticleCategories from './Pages/Article'
+import ArticleView from './Pages/ArticleView'
+import CreateArticle from './Pages/CreateArticle'
+import EditArticle from './Pages/EditArticle'
 
 const AppDiv = styled.div`
   @import url('https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap');
@@ -62,15 +66,14 @@ const ActionContainer = styled.button`
   justify-content:center
   border:none
 `
-
 class App extends React.Component {
   render(){
     return (
       <Router>
         <AppDiv className="App">
           <ActionFloater>
-            <ActionContainer><i className="material-icons">create</i></ActionContainer>
-            <ActionContainer><i className="material-icons">add_a_photo</i></ActionContainer>
+            <ActionContainer><Link to='/newArticle'><i className="material-icons">post_add</i></Link></ActionContainer>
+            <ActionContainer><Link to='/'><i className="material-icons">add_a_photo</i></Link></ActionContainer>
           </ActionFloater>
           <SiteTitle>UWA Motorsports</SiteTitle>
           <StyledNav>
@@ -80,8 +83,11 @@ class App extends React.Component {
           </StyledNav>
           <Switch>
             <Route exact path='/'><Home /></Route>
-            <Route path='/articles'><ArticleCategories /></Route>
+            <Route exact path='/articles'><ArticleCategories /></Route>
             <Route path='/gallery'><h1>Gallery</h1></Route>
+            <Route path='/articles/:id' component={ArticleView}/>
+            <Route path='/newArticle'><CreateArticle /></Route>
+            <Route path='/editArticle/:id' component={EditArticle}></Route>
           </Switch>
           <Footer>
             <p>UWA Motorsports 2019</p>
@@ -92,4 +98,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  ...state
+})
+
+export default connect(mapStateToProps)(App);
