@@ -3,7 +3,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import ReactMarkdown from 'react-markdown'
 
-const BASE_URL = process.env.PORT || 'localhost:8080'
+const BASE_URL = process.env.PORT ? '/' : 'http://localhost:8080/'
 
 const EditingDashboard = styled.div`
     display:grid
@@ -30,7 +30,7 @@ class EditArticle extends React.Component{
     componentDidMount = async () => {
         const { match: {params}} = this.props
         console.log(params)
-        let articleData = await axios.get(`http://${BASE_URL}/api/articles/${params.id}`)
+        let articleData = await axios.get(`${BASE_URL}api/articles/${params.id}`)
         console.log(articleData.data)
         this.setState({articleId: articleData.data.shortid})
         this.setState({...articleData.data})
@@ -45,10 +45,10 @@ class EditArticle extends React.Component{
         console.log( this.state ? this.state.articlId || 'creating new article' : 'creating new article')
         if(this.state.articleId){
             console.log(this.state)
-            let postedData = await axios.put(`http://${BASE_URL}/api/articles/${this.state.articleId}`, this.state)
+            let postedData = await axios.put(`${BASE_URL}api/articles/${this.state.articleId}`, this.state)
             console.log(postedData)
         } else {
-            let postedData = await axios.post(`http://${BASE_URL}/api/articles`, this.state)
+            let postedData = await axios.post(`${BASE_URL}api/articles`, this.state)
             this.setState({articleId: postedData.data.shortid})
         }
     }

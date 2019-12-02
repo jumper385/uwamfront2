@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { connect } from 'react-redux'
 
-const BASE_URL = process.env.PORT || 'http://localhost:8080'
+const BASE_URL = process.env.PORT ? '/' : 'http://localhost:8080/'
 
 const ArticleHolder = styled.div`
     padding:32pt
@@ -53,7 +53,7 @@ const ArticleLoader = (props) => {
     const DeleteArticle = async e => {
         e.preventDefault()
         const id = e.target.name
-        let deleteData = await axios.delete(`${BASE_URL}/api/articles/${id}`)
+        let deleteData = await axios.delete(`${BASE_URL}api/articles/${id}`)
         if (deleteData) props.DELETE_ARTICLE(id)
     }
 
