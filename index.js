@@ -28,6 +28,7 @@ app.use('/api', API_Router)
 app.get('*',(req,res) => {
     res.sendFile(path.join(__dirname, 'client/build/index.html'))
 })
-app.get('/', (req,res) => res.json({message:'hello world'}))
+
+app.get('/api', (req,res) => res.json({message:'hello world'}))
 
 app.listen(PORT, () => console.log(`New User Connected @ PORT:${PORT}`))
