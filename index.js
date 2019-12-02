@@ -14,7 +14,6 @@ const API_Router = require('./routes/route_api')
 
 const app = express()
 
-app.use(express.static(path.join(__dirname, 'client/build')))
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
@@ -25,8 +24,9 @@ if(process.env.NODE_ENV=='development'){
 }
 
 app.use('/api', API_Router)
+app.use(express.static(path.join(__dirname, 'client/build')))
 app.get('*',(req,res) => {
-    res.sendFile('client/build/index.html')
+    res.sendFile(path.join(__dirname(), 'client/build/index.html'))
 })
 
 app.listen(PORT, () => console.log(`New User Connected @ PORT:${PORT}`))
