@@ -82,7 +82,7 @@ const ArticleLoader = (props) => {
 class ArticleCategories extends Component {
 
     componentDidMount = async() => {
-        const articles = await axios.get(`${BASE_URL}/api/articles`)
+        const articles = await axios.get(`/api/articles`)
         console.log(this.props)
         this.props.UPDATE_ARTICLES(articles)
     }
