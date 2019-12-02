@@ -19,9 +19,9 @@ class CreateArticle extends React.Component{
         console.log( this.state ? this.state.articlid || 'creating new article' : 'creating new article')
         if(this.state.articleId){
             console.log(this.state)
-            let postedData = await axios.put(`http://${BASE_URL}/api/articles/${this.state.articlId}`, this.state)
+            let postedData = await axios.put(`/api/articles/${this.state.articlId}`, this.state)
         } else {
-            let postedData = await axios.post(`http://${BASE_URL}/api/articles`, this.state)
+            let postedData = await axios.post(`/api/articles`, this.state)
             this.setState({articleId: postedData.data.shortid})
         }
     }
