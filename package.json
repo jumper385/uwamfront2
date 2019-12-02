@@ -20,6 +20,7 @@
   },
   "scripts": {
     "dev": "concurrently \"cross-env NODE_ENV=development PORT=8080 nodemon\" \"cd client && yarn start\" ",
-    "start": "node index"
+    "start": "yarn index",
+    "heroku-postbuild": "cd client && yarn build"
   }
 }
